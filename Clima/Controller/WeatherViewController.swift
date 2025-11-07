@@ -1,14 +1,7 @@
-//
-//  ViewController.swift
-//  Clima
-//
-//  Created by Angela Yu on 01/09/2019.
-//  Copyright © 2019 App Brewery. All rights reserved.
-//
 
 import UIKit
 
-class WeatherViewController: UIViewController, UITextFieldDelegate {
+class WeatherViewController: UIViewController, UITextFieldDelegate, WeatherManagerDelegate {
 
     @IBOutlet weak var conditionImageView: UIImageView!
     @IBOutlet weak var temperatureLabel: UILabel!
@@ -19,8 +12,8 @@ class WeatherViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        weatherManager.delegate = self
         searchTextField.delegate = self
-        // Do any additional setup after loading the view.
     }
 
     @IBAction func searchPressed(_ sender: UIButton) {
@@ -45,6 +38,12 @@ class WeatherViewController: UIViewController, UITextFieldDelegate {
         if let city = searchTextField.text {
             weatherManager.fetchWeather(cityName: city)
         }
+        
+        searchTextField.text = ""
+    }
+    
+    func didUpdateWeather(weather: WeatherModel) {
+        print(weather.temperature)
     }
     
 }
